@@ -34,6 +34,27 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         fail_ci_if_error: true
+    
+
+  autoformat:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      # format code
+      - uses: piotrpawlaczek/python-blacken@release/stable 
+        with:
+          only-check: 'no'
+      # push formatted code
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply black formatting
+
+    # - name: Lint with flake8
+    #   run: |
+    #     pipenv run flake8 aguaclara --count --verbose --show-source --statistics
+
   
   test-docs:
     runs-on: ubuntu-latest
